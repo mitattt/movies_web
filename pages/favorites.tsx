@@ -8,11 +8,11 @@ export default function Favorites({movies}) {
   const router = useRouter();
 
   return (
-    <div className="container-xl bg-white">
+    <div className="container-xl">
       <CustomHead title={'Favorites'} />
       <div className="d-flex justify-content-between align-items-center mx-3">
-        <h1 className="my-3">Favorites</h1>
-        <button onClick={() => router.back()} className="h-50">
+        <h1 className="my-3 text-gray-300">Favorites</h1>
+        <button onClick={() => router.back()} className="h-50 text-gray-400">
           Go back
         </button>
       </div>

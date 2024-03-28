@@ -1,7 +1,7 @@
 import {useRouter} from 'next/router';
 import {getNumbers} from '../utils';
 import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/20/solid';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 type Props = {
   total: number;
@@ -20,16 +20,36 @@ export const PaginationTemplate: React.FC<Props> = ({total}) => {
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === pageCount;
 
+  useEffect(() => {
+    if (!router.query.page) {
+      router.push(`${router.route}?page=1`);
+    }
+  }, [router.query.page]);
+
   const changeToPrevPage = () => {
-    router.push(`/search/${router.query.query}?page=${currentPage - 1}`);
+    const queryParam = router.query.query ? `query=${router.query.query}&` : '';
+    const nextPage = currentPage - 1;
+    const route = router.route.startsWith('/search')
+      ? `/search/[query]`
+      : router.route;
+    router.push(`${route}?${queryParam}page=${nextPage}`);
   };
 
   const changeToNextPage = () => {
-    router.push(`/search/${router.query.query}?page=${currentPage + 1}`);
+    const queryParam = router.query.query ? `query=${router.query.query}&` : '';
+    const nextPage = currentPage + 1;
+    const route = router.route.startsWith('/search')
+      ? `/search/[query]`
+      : router.route;
+    router.push(`${route}?${queryParam}page=${nextPage}`);
   };
 
   const handle = (num: number) => {
-    router.push(`/search/${router.query.query}?page=${num}`);
+    const queryParam = router.query.query ? `query=${router.query.query}&` : '';
+    const route = router.route.startsWith('/search')
+      ? `/search/[query]`
+      : router.route;
+    router.push(`${route}?${queryParam}page=${num}`);
   };
 
   return (

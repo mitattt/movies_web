@@ -32,18 +32,22 @@ export const client = {
   get: <T>(url: string) => request<T>(url),
 };
 
-export const getNowPlayingMovies = () => {
+export const getNowPlayingMovies = (page: number = 1) => {
   return client.get<FreshMoviesResponse>(
-    `movie/now_playing?api_key=${API_KEY}`,
+    `movie/now_playing?api_key=${API_KEY}&page=${page}`,
   );
 };
 
-export const getUpcomingMovies = () => {
-  return client.get<FreshMoviesResponse>(`movie/upcoming?api_key=${API_KEY}`);
+export const getUpcomingMovies = (page: number = 1) => {
+  return client.get<FreshMoviesResponse>(
+    `movie/upcoming?api_key=${API_KEY}&page=${page}`,
+  );
 };
 
-export const getPopularMovies = () => {
-  return client.get<CommonMoviesResponse>(`movie/popular?api_key=${API_KEY}`);
+export const getPopularMovies = (page: number = 1) => {
+  return client.get<CommonMoviesResponse>(
+    `movie/popular?api_key=${API_KEY}&page=${page}`,
+  );
 };
 
 export const getSearchMovies = (keyword: string, page: number) => {
