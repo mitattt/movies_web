@@ -59,14 +59,14 @@ const Movie = ({movieDetails}: {movieDetails: MovieByID}) => {
   } = movieDetails;
 
   return (
-    <div className="container-xl px-4 bg-white">
+    <div className="container-xl px-4">
       <CustomHead title={title} />
       <div className="flex justify-between items-center">
-        <h1 className="my-3 text-3xl">{title}</h1>
+        <h1 className="my-3 text-3xl text-gray-300">{title}</h1>
         <button
           type="button"
           onClick={() => router.back()}
-          className="h-12 bg-blue-500 text-black px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          className="h-12 bg-yellow-600 px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
           Go back
         </button>
       </div>
@@ -84,7 +84,7 @@ const Movie = ({movieDetails}: {movieDetails: MovieByID}) => {
             {genres.map((genre, index) => (
               <li
                 key={index}
-                className="px-3 py-1 text-sm bg-blue-200 rounded-full border border-blue-300">
+                className="px-3 py-1 text-sm bg-yellow-600 rounded-full">
                 {genre.name}
               </li>
             ))}
@@ -92,16 +92,16 @@ const Movie = ({movieDetails}: {movieDetails: MovieByID}) => {
         </div>
 
         <div className="w-3/4">
-          <p className="text-xl">{tagline}</p>
-          <p className="text-xl">{overview}</p>
-          <p className="text-lg">Budget {budget}</p>
-          {adult && <p className="text-lg">Adult</p>}
-          <p className="text-xl">Vote average: {vote_average}</p>
-          <p className="text-xl">Release data: {release_date}</p>
-          <p className="text-xl">Vote count: {vote_count}</p>
-          <p className="text-xl">Runtime: {runtime}</p>
-          <p className="text-xl">Popularity: {popularity}</p>
-          <p className="text-xl">Status: {status}</p>
+          <p className="text-xl text-gray-300">{tagline}</p>
+          <p className="text-xl text-gray-300">{overview}</p>
+          <p className="text-lg text-gray-300">Budget {budget}</p>
+          {adult && <p className="text-lg text-gray-300">Adult</p>}
+          <p className="text-xl text-gray-300">Vote average: {vote_average}</p>
+          <p className="text-xl text-gray-300">Release data: {release_date}</p>
+          <p className="text-xl text-gray-300">Vote count: {vote_count}</p>
+          <p className="text-xl text-gray-300">Runtime: {runtime}</p>
+          <p className="text-xl text-gray-300">Popularity: {popularity}</p>
+          <p className="text-xl text-gray-300">Status: {status}</p>
         </div>
       </div>
     </div>
