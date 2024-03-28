@@ -55,7 +55,7 @@ export const CardItem: React.FC<Props> = ({imgUrl, title, movieId, vote}) => {
       <Link href={`/movies/${movieId}`} passHref>
         <div className="block">
           <div className="w-full relative">
-            <div className="absolute top-0 left-0 w-full h-28 bg-gradient-to-b from-black to-transparent"></div>
+            <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-black to-transparent"></div>
             <Image
               alt="Movie poster"
               src={imgUrl}
@@ -79,9 +79,9 @@ export const CardItem: React.FC<Props> = ({imgUrl, title, movieId, vote}) => {
                 </p>
               </CircularProgressbarWithChildren>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white py-1 px-2">
-              <p className="text-sm font-semibold">{title}</p>
-            </div>
+            {/*<div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white py-1 px-2">*/}
+            {/*  <p className="text-sm font-semibold">{title}</p>*/}
+            {/*</div>*/}
           </div>
         </div>
       </Link>

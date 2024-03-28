@@ -121,7 +121,7 @@ export const Header = () => {
           <input
             type="text"
             placeholder="Search!"
-            className="py-2 px-4 border border-transparent rounded-lg w-full focus:outline-none focus:border-gray-700 bg-gray-700 text-gray-100"
+            className="py-2 px-4 border border-transparent rounded-lg w-full focus:outline-none focus:border-gray-700 bg-yellow-600 text-black placeholder-black"
             value={searchQuery}
             onChange={handleInputChange}
           />
