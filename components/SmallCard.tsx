@@ -54,9 +54,6 @@ export const SmallCard: React.FC<Props> = ({imgUrl, title, movieId, vote}) => {
               </p>
             </CircularProgressbarWithChildren>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white py-1 px-2">
-            <p className="text-sm font-semibold">{title}</p>
-          </div>
         </div>
       </Link>
     </div>

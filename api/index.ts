@@ -3,6 +3,7 @@ import {
   FreshMoviesResponse,
   MovieByID,
 } from '../types/MovieTypes';
+import {VideoResponse} from '../types/Video';
 
 const API_KEY = 'bfffaf71459ee055fb33c621c9cd67bc';
 const BASE_URL = 'https://api.themoviedb.org/3/';
@@ -38,6 +39,18 @@ export const getNowPlayingMovies = (page: number = 1) => {
   );
 };
 
+export const getSimilarVideos = (movieId: number) => {
+  return client.get<CommonMoviesResponse>(
+    `movie/${movieId}/similar?api_key=${API_KEY}`,
+  );
+};
+
+export const getAdditionalVideos = (movieId: number) => {
+  return client.get<VideoResponse>(
+    `movie/${movieId}/videos?api_key=${API_KEY}`,
+  );
+};
+
 export const getUpcomingMovies = (page: number = 1) => {
   return client.get<FreshMoviesResponse>(
     `movie/upcoming?api_key=${API_KEY}&page=${page}`,
@@ -47,6 +60,12 @@ export const getUpcomingMovies = (page: number = 1) => {
 export const getPopularMovies = (page: number = 1) => {
   return client.get<CommonMoviesResponse>(
     `movie/popular?api_key=${API_KEY}&page=${page}`,
+  );
+};
+
+export const getTopRatedMovies = (page: number = 1) => {
+  return client.get<CommonMoviesResponse>(
+    `movie/top_rated?api_key=${API_KEY}&page=${page}`,
   );
 };
 

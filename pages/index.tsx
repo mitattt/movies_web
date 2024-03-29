@@ -1,5 +1,10 @@
 import React from 'react';
-import {getNowPlayingMovies, getPopularMovies, getUpcomingMovies} from '../api';
+import {
+  getNowPlayingMovies,
+  getPopularMovies,
+  getTopRatedMovies,
+  getUpcomingMovies,
+} from '../api';
 import {GetServerSideProps} from 'next';
 import {CommonMoviesResponse, FreshMoviesResponse} from '../types/MovieTypes';
 import {SmallCardList} from '../components/SmallCardList';
@@ -9,12 +14,14 @@ interface Props {
   nowPlayingMovies: FreshMoviesResponse;
   upcomingMovies: FreshMoviesResponse;
   popularMovies: CommonMoviesResponse;
+  topRatedMovies: CommonMoviesResponse;
 }
 
 export default function Index({
   nowPlayingMovies,
   upcomingMovies,
   popularMovies,
+  topRatedMovies,
 }: Props) {
   const mostPopularMovie = popularMovies.results[0];
   return (
@@ -35,8 +42,19 @@ export default function Index({
       </section>
       <section className="flex flex-col w-full px-5">
         <div className="flex justify-between items-center mb-2">
+          <h2 className="text-gray-300">Top rated movies</h2>
+          <Link href="/popular">
+            <div className="p-2 border border-white rounded-sm hover:cursor-pointer">
+              <p className="text-gray-300 text-sm">See more</p>
+            </div>
+          </Link>
+        </div>
+        <SmallCardList list={topRatedMovies.results} />
+      </section>
+      <section className="flex flex-col w-full px-5">
+        <div className="flex justify-between items-center mb-2">
           <h2 className="text-gray-300">Top 20 upcoming movies</h2>
-          <Link href="/upcoming">
+          <Link href="/topRated">
             <div className="p-2 border border-white rounded-sm hover:cursor-pointer">
               <p className="text-gray-300 text-sm">See more</p>
             </div>
@@ -61,19 +79,25 @@ export default function Index({
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const [nowPlayingMovies, upcomingMovies, popularMovies] = await Promise.all(
-      [getNowPlayingMovies(), getUpcomingMovies(), getPopularMovies()],
-    );
+    const [nowPlayingMovies, upcomingMovies, popularMovies, topRatedMovies] =
+      await Promise.all([
+        getNowPlayingMovies(),
+        getUpcomingMovies(),
+        getPopularMovies(),
+        getTopRatedMovies(),
+      ]);
 
     nowPlayingMovies.results.sort((a, b) => b.vote_average - a.vote_average);
     upcomingMovies.results.sort((a, b) => b.vote_average - a.vote_average);
     popularMovies.results.sort((a, b) => b.vote_average - a.vote_average);
+    topRatedMovies.results.sort((a, b) => b.vote_average - a.vote_average);
 
     return {
       props: {
         nowPlayingMovies,
         upcomingMovies,
         popularMovies,
+        topRatedMovies,
       },
     };
   } catch (error) {
@@ -83,6 +107,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
         nowPlayingMovies: [],
         upcomingMovies: [],
         popularMovies: [],
+        topRatedMovies: [],
       },
     };
   }

@@ -68,10 +68,15 @@ export const Header = () => {
             )}
           </button>
         </div>
-        <div className="hidden md:flex gap-10">
+        <div className="hidden md:flex gap-8">
           <Link href="/popular" passHref>
             <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
               Popular
+            </span>
+          </Link>
+          <Link href="/topRated" passHref>
+            <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
+              Top Rated
             </span>
           </Link>
           <Link href="/upcoming" passHref>
