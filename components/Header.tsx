@@ -26,10 +26,12 @@ export const Header = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between py-3 px-5 bg-black sticky top-0 z-10">
+    <nav className="flex items-center justify-between py-3 px-5 bg-black sticky top-0 z-50">
       <div className="flex items-center">
         <Link href="/" passHref>
-          <span className="text-sm font-semibold text-gray-500">MyMovie</span>
+          <span className=" text-gray-300 hover:text-yellow-600 transition duration-100">
+            MyMovie
+          </span>
         </Link>
       </div>
       <div className="flex items-center md:w-3/4 lg:w-2/4 relative">
@@ -68,20 +70,22 @@ export const Header = () => {
         </div>
         <div className="hidden md:flex gap-10">
           <Link href="/popular" passHref>
-            <span className="text-sm font-semibold text-gray-500">Popular</span>
+            <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
+              Popular
+            </span>
           </Link>
           <Link href="/upcoming" passHref>
-            <span className="text-sm font-semibold text-gray-500">
+            <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
               Upcoming
             </span>
           </Link>
           <Link href="/nowPlaying" passHref>
-            <span className="text-sm font-semibold text-gray-500">
+            <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
               Now playing
             </span>
           </Link>
           <Link href="/favorites" passHref>
-            <span className="text-sm font-semibold text-gray-500">
+            <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
               Favorites
             </span>
           </Link>
@@ -121,7 +125,7 @@ export const Header = () => {
           <input
             type="text"
             placeholder="Search!"
-            className="py-2 px-4 border border-transparent rounded-lg w-full focus:outline-none focus:border-gray-700 bg-yellow-600 text-black placeholder-black"
+            className="py-2 px-4 rounded-lg w-full focus:outline-none bg-yellow-600 text-black placeholder-black"
             value={searchQuery}
             onChange={handleInputChange}
           />

@@ -10,13 +10,12 @@ type Props = {
 export const CardList: React.FC<Props> = ({list}) => {
   return (
     <div className="flex justify-center">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 justify-center">
-        {list.map(({title, id, vote_average, poster_path}) =>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 justify-center">
+        {list.map(({id, vote_average, poster_path, overview}) =>
           poster_path !== null ? (
             <div key={id}>
               <CardItem
-                title={title}
-                imgUrl={baseImagePath('original', poster_path)}
+                imgUrl={baseImagePath('w780', poster_path)}
                 movieId={id}
                 vote={vote_average}
               />

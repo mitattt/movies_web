@@ -1,35 +1,15 @@
 import {GetServerSideProps} from 'next/types';
-import {useRouter} from 'next/router';
+import React from 'react';
+import Image from 'next/image';
+import {
+  buildStyles,
+  CircularProgressbarWithChildren,
+} from 'react-circular-progressbar';
 import {baseImagePath, getMovieDetails} from '../../api';
 import {CustomHead} from '../../components/CustomHead';
-import Image from 'next/image';
-import React from 'react';
 import {MovieByID} from '../../types/MovieTypes';
 
-const genresConstants = {
-  28: 'Action',
-  12: 'Adventure',
-  16: 'Animation',
-  35: 'Comedy',
-  80: 'Crime',
-  99: 'Documentary',
-  18: 'Drama',
-  10751: 'Family',
-  14: 'Fantasy',
-  36: 'History',
-  27: 'Horror',
-  10402: 'Music',
-  9648: 'Mystery',
-  10749: 'Romance',
-  878: 'Science Function',
-  10770: 'TV Movie',
-  53: 'Thriller',
-  10752: 'War',
-  37: 'Western',
-};
-
 const Movie = ({movieDetails}: {movieDetails: MovieByID}) => {
-  const router = useRouter();
   const {
     genres,
     video,
@@ -58,53 +38,129 @@ const Movie = ({movieDetails}: {movieDetails: MovieByID}) => {
     overview,
   } = movieDetails;
 
+  console.log(movieDetails);
+
+  const getColorForRating = (rating: number) => {
+    if (rating < 5) return '#ff8c5a';
+    else if (rating < 7.5) return '#ffd934';
+    else return '#add633';
+  };
+
+  const color = getColorForRating(vote_average);
+
   return (
-    <div className="container-xl px-4">
+    <>
       <CustomHead title={title} />
-      <div className="flex justify-between items-center">
-        <h1 className="my-3 text-3xl text-gray-300">{title}</h1>
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="h-12 bg-yellow-600 px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-          Go back
-        </button>
-      </div>
-      <div className="flex gap-5 mb-3 flex-col md:flex-row items-center md:items-start">
-        <div className="flex flex-col max-w-[300px] gap-4">
-          <Image
-            src={baseImagePath('w1280', poster_path)}
-            alt="Movie poster"
-            className="object-cover"
-            width={300}
-            height={450}
-          />
 
-          <ul className="flex flex-wrap gap-3">
-            {genres.map((genre, index) => (
-              <li
-                key={index}
-                className="px-3 py-1 text-sm bg-yellow-600 rounded-full">
-                {genre.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="w-3/4">
-          <p className="text-xl text-gray-300">{tagline}</p>
-          <p className="text-xl text-gray-300">{overview}</p>
-          <p className="text-lg text-gray-300">Budget {budget}</p>
-          {adult && <p className="text-lg text-gray-300">Adult</p>}
-          <p className="text-xl text-gray-300">Vote average: {vote_average}</p>
-          <p className="text-xl text-gray-300">Release data: {release_date}</p>
-          <p className="text-xl text-gray-300">Vote count: {vote_count}</p>
-          <p className="text-xl text-gray-300">Runtime: {runtime}</p>
-          <p className="text-xl text-gray-300">Popularity: {popularity}</p>
-          <p className="text-xl text-gray-300">Status: {status}</p>
+      <div className="flex justify-center items-center p-5 md:p-0">
+        <div className="container rounded-lg flex gap-5 flex-col md:flex-row">
+          <div className="flex flex-col gap-5 max-w-[200px]">
+            <div className="w-full  md:w-[200px] relative flex flex-row md:flex-col items-center gap-3 bg-gray-800 rounded-lg md:pb-3 h-max">
+              <div className="h-[220px] w-[130px] md:h-[300px] md:w-[200px] relative shrink-0">
+                <Image
+                  alt="Movie poster"
+                  src={baseImagePath('w780', poster_path)}
+                  layout="fill"
+                  objectFit="cover"
+                  objectPosition="center"
+                  loading="lazy"
+                />
+              </div>
+              <div className="flex items-center justify-center w-full">
+                <div className="w-24 h-24">
+                  <CircularProgressbarWithChildren
+                    value={vote_average * 10}
+                    maxValue={100}
+                    styles={buildStyles({
+                      textColor: color,
+                      pathColor: color,
+                      trailColor: '#4a5568',
+                      strokeLinecap: 'round',
+                    })}
+                    strokeWidth={8}>
+                    <p className="text-lg font-bold" style={{color}}>
+                      {vote_average.toFixed(1)}
+                    </p>
+                  </CircularProgressbarWithChildren>
+                </div>
+              </div>
+            </div>
+            <div className="p-8 bg-gray-800 rounded-lg h-max">
+              <div className="mb-4">
+                <h3 className="text-xl font-bold mb-2 text-yellow-600">
+                  Tagline
+                </h3>
+                <p className="text-gray-300">{tagline}</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-5">
+            <div className="p-8 bg-gray-800 rounded-lg h-max">
+              <h1 className="text-3xl font-bold text-yellow-600">{title}</h1>
+            </div>
+            <div className="p-8 bg-gray-800 rounded-lg h-max">
+              <div className="mb-4">
+                <h3 className="text-xl font-bold mb-2 text-yellow-600">
+                  Overview
+                </h3>
+                <p className="text-gray-300">{overview}</p>
+              </div>
+            </div>
+            <div className="p-8 bg-gray-800 rounded-lg h-max">
+              <h3 className="text-xl font-bold mb-4 text-yellow-600">
+                Production companies
+              </h3>
+              <ul className="flex flex-col gap-5">
+                {production_companies.map(company => (
+                  <li key={company.id} className="flex gap-5 items-center">
+                    <div className="relative h-[40px] w-[40px]">
+                      <Image
+                        src={baseImagePath('w300', company.logo_path)}
+                        alt="Logo"
+                        fill={true}
+                        objectFit="cover"
+                        objectPosition="center"
+                      />
+                    </div>
+                    <p className="text-gray-300">{company.name}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="flex flex-col gap-5">
+            <div className="p-8 bg-gray-800 rounded-lg h-max">
+              <h3 className="text-xl font-bold mb-5 text-yellow-600">
+                Released
+              </h3>
+              <p className="text-gray-300">{release_date}</p>
+            </div>
+            <div className="p-8 bg-gray-800 rounded-lg h-max">
+              <h2 className="text-xl font-bold mb-2 text-yellow-600">Genres</h2>
+              <ul className="flex flex-wrap gap-2">
+                {genres.map((genre, index) => (
+                  <li key={index} className="bg-gray-700 px-2 py-1 rounded">
+                    {genre.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="p-8 bg-gray-800 rounded-lg h-max">
+              <h2 className="text-xl font-bold mb-2 text-yellow-600">
+                Spoken languages
+              </h2>
+              <ul className="flex flex-wrap gap-2">
+                {spoken_languages.map((language, index) => (
+                  <li key={index} className="bg-gray-700 px-2 py-1 rounded">
+                    {language.english_name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -114,18 +170,9 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
   const id = +query.movieId;
   try {
     const movieDetails = await getMovieDetails(id);
-
-    return {
-      props: {
-        movieDetails,
-      },
-    };
+    return {props: {movieDetails}};
   } catch (error) {
     console.error('Error fetching data:', error);
-    return {
-      props: {
-        movieDetails: {},
-      },
-    };
+    return {props: {movieDetails: {}}};
   }
 };
