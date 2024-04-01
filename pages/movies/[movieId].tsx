@@ -11,6 +11,8 @@ import {
   getMovieDetails,
   getSimilarVideos,
 } from '../../api';
+import {motion} from 'framer-motion';
+
 import {CommonMoviesResponse, MovieByID} from '../../types/MovieTypes';
 import {SmallCardList} from '../../components/SmallCardList';
 import {VideoList} from '../../components/VideoList';
@@ -51,150 +53,191 @@ const Movie = ({
   const color = getColorForRating(vote_average);
 
   return (
-    <>
-      <div className="flex justify-center items-center p-5 md:p-0 flex-col gap-10">
-        <div className="container rounded-sm flex gap-5 flex-col md:flex-row">
-          <div className="flex flex-col gap-5 w-full md:max-w-[200px]">
-            <div className="w-full  md:w-[200px] relative flex flex-row md:flex-col items-center gap-3 bg-neutral-800 rounded-sm md:pb-3 h-max">
-              <div className="h-[220px] w-[130px] md:h-[300px] md:w-[200px] relative shrink-0">
-                <Image
-                  alt="Movie poster"
-                  src={baseImagePath('w780', poster_path)}
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="center"
-                  loading="lazy"
-                />
-              </div>
-              <div className="flex items-center justify-center w-full">
-                <div className="w-24 h-24">
-                  <CircularProgressbarWithChildren
-                    value={vote_average * 10}
-                    maxValue={100}
-                    styles={buildStyles({
-                      textColor: color,
-                      pathColor: color,
-                      trailColor: '#4a5568',
-                      strokeLinecap: 'round',
-                    })}
-                    strokeWidth={8}>
-                    <p className="text-lg font-bold" style={{color}}>
-                      {vote_average.toFixed(1)}
-                    </p>
-                  </CircularProgressbarWithChildren>
-                </div>
-              </div>
+    <div className="flex justify-center items-center p-5 md:p-0 flex-col gap-10">
+      <div className="container rounded-sm flex gap-5 flex-col md:flex-row w-full">
+        <div className="flex flex-col gap-5 w-full md:max-w-[200px]">
+          <motion.div
+            initial={{opacity: 0, x: -50}}
+            animate={{opacity: 1, x: 0}}
+            exit={{opacity: 0, x: -50}}
+            transition={{duration: 0.5}}
+            className="w-full  md:w-[200px] relative flex flex-row md:flex-col items-center gap-3 bg-neutral-800 rounded-sm md:pb-3 h-max">
+            <div className="h-[220px] w-[130px] md:h-[300px] md:w-[200px] relative shrink-0">
+              <Image
+                alt="Movie poster"
+                src={baseImagePath('w780', poster_path)}
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                loading="lazy"
+              />
             </div>
-            {tagline.length > 0 && (
-              <div className="p-6 bg-neutral-800 rounded-sm h-max">
-                <h3 className="text-xl font-bold mb-2 text-yellow-600">
-                  Tagline
-                </h3>
-                <p className="text-gray-300">{tagline}</p>
-              </div>
-            )}
-            <div className="p-6 bg-neutral-800 rounded-sm h-max">
-              <h3 className="text-xl font-bold mb-2 text-yellow-600">Budget</h3>
-              <p className="text-gray-300">{budget}$</p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-5">
-            <div className="p-6 bg-neutral-800 rounded-sm h-max">
-              <h1 className="text-3xl font-bold text-yellow-600">{title}</h1>
-            </div>
-            {overview && (
-              <div className="p-6 bg-neutral-800 rounded-sm h-max">
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold mb-2 text-yellow-600">
-                    Overview
-                  </h3>
-                  <p className="text-gray-300">{overview}</p>
-                </div>
-              </div>
-            )}
-            {production_companies.length > 0 && (
-              <div className="p-6 bg-neutral-800 rounded-sm h-max">
-                <h3 className="text-xl font-bold mb-4 text-yellow-600">
-                  Production companies
-                </h3>
-                <ul className="flex flex-wrap gap-5">
-                  {production_companies.map(company => {
-                    const isImage = company.logo_path;
-                    return (
-                      <li
-                        key={company.id}
-                        className="flex gap-5 items-center bg-neutral-700 rounded-sm p-2">
-                        {isImage && (
-                          <div className="relative h-[60px] w-[60px]">
-                            <Image
-                              src={baseImagePath('w300', company.logo_path)}
-                              alt="Logo"
-                              fill={true}
-                              objectFit="contain"
-                              objectPosition="center"
-                            />
-                          </div>
-                        )}
-                        <p className="text-gray-300">{company.name}</p>
-                      </li>
-                    );
+            <div className="flex items-center justify-center w-full">
+              <div className="w-24 h-24">
+                <CircularProgressbarWithChildren
+                  value={vote_average * 10}
+                  maxValue={100}
+                  styles={buildStyles({
+                    textColor: color,
+                    pathColor: color,
+                    trailColor: '#4a5568',
+                    strokeLinecap: 'round',
                   })}
-                </ul>
+                  strokeWidth={8}>
+                  <p className="text-lg font-bold" style={{color}}>
+                    {vote_average.toFixed(1)}
+                  </p>
+                </CircularProgressbarWithChildren>
               </div>
-            )}
-          </div>
-          <div className="flex flex-col gap-5">
-            {release_date && (
-              <div className="p-6 bg-neutral-800 rounded-sm h-max">
-                <h3 className="text-xl font-bold mb-5 text-yellow-600">
-                  Released
+            </div>
+          </motion.div>
+          {tagline.length > 0 && (
+            <motion.div
+              initial={{opacity: 0, x: -50}}
+              animate={{opacity: 1, x: 0}}
+              exit={{opacity: 0, x: -50}}
+              transition={{duration: 0.6}}
+              className="p-6 bg-neutral-800 rounded-sm h-max">
+              <h3 className="text-xl font-bold mb-2 text-yellow-600">
+                Tagline
+              </h3>
+              <p className="text-gray-300">{tagline}</p>
+            </motion.div>
+          )}
+          <motion.div
+            initial={{opacity: 0, x: -50}}
+            animate={{opacity: 1, x: 0}}
+            exit={{opacity: 0, x: -50}}
+            transition={{duration: 0.7}}
+            className="p-6 bg-neutral-800 rounded-sm h-max">
+            <h3 className="text-xl font-bold mb-2 text-yellow-600">Budget</h3>
+            <p className="text-gray-300">{budget}$</p>
+          </motion.div>
+        </div>
+        <div className="flex flex-col gap-5 w-full">
+          <motion.div
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+            transition={{duration: 0.6}}
+            className="p-6 bg-neutral-800 rounded-sm h-max">
+            <h1 className="text-3xl font-bold text-yellow-600">{title}</h1>
+          </motion.div>
+          {overview && (
+            <motion.div
+              initial={{opacity: 0}}
+              animate={{opacity: 1}}
+              exit={{opacity: 0}}
+              transition={{duration: 0.6}}
+              className="p-6 bg-neutral-800 rounded-sm h-max">
+              <div className="mb-4">
+                <h3 className="text-xl font-bold mb-2 text-yellow-600">
+                  Overview
                 </h3>
-                <p className="text-gray-300">{release_date}</p>
+                <p className="text-gray-300">{overview}</p>
               </div>
-            )}
-            {genres && (
-              <div className="p-6 bg-neutral-800 rounded-sm h-max">
-                <h2 className="text-xl font-bold mb-2 text-yellow-600">
-                  Genres
-                </h2>
-                <ul className="flex flex-wrap gap-2">
-                  {genres.map((genre, index) => (
+            </motion.div>
+          )}
+          {production_companies.length > 0 && (
+            <motion.div
+              initial={{opacity: 0}}
+              animate={{opacity: 1}}
+              exit={{opacity: 0}}
+              transition={{duration: 0.7}}
+              className="p-6 bg-neutral-800 rounded-sm h-max">
+              <h3 className="text-xl font-bold mb-4 text-yellow-600">
+                Production companies
+              </h3>
+              <ul className="flex flex-wrap gap-5">
+                {production_companies.map(company => {
+                  const isImage = company.logo_path;
+                  return (
                     <li
-                      key={index}
-                      className="bg-neutral-700 px-2 py-1 rounded-sm text-gray-300">
-                      {genre.name}
+                      key={company.id}
+                      className="flex gap-5 items-center bg-neutral-700 rounded-sm p-2">
+                      {isImage && (
+                        <div className="relative h-[60px] w-[60px]">
+                          <Image
+                            src={baseImagePath('w300', company.logo_path)}
+                            alt="Logo"
+                            fill={true}
+                            objectFit="contain"
+                            objectPosition="center"
+                          />
+                        </div>
+                      )}
+                      <p className="text-gray-300">{company.name}</p>
                     </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {spoken_languages && (
-              <div className="p-6 bg-neutral-800 rounded-lg h-max">
-                <h2 className="text-xl font-bold mb-2 text-yellow-600">
-                  Spoken languages
-                </h2>
-                <ul className="flex flex-wrap gap-2">
-                  {spoken_languages.map((language, index) => (
-                    <li
-                      key={index}
-                      className="bg-neutral-700 px-2 py-1 rounded text-gray-300">
-                      {language.english_name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+                  );
+                })}
+              </ul>
+            </motion.div>
+          )}
         </div>
-        <div className="container">
-          <h2 className="text-3xl font-bold text-yellow-600 mb-2">
-            Similar movies
-          </h2>
-          <SmallCardList list={similarMovies.results} />
-          <VideoList list={additionalVideosSliced} />
-        </div>
+        <motion.div
+          initial={{opacity: 0, x: 50}}
+          animate={{opacity: 1, x: 0}}
+          exit={{opacity: 0, x: 50}}
+          transition={{duration: 0.5}}
+          className="flex flex-col gap-5">
+          {release_date && (
+            <div className="p-6 bg-neutral-800 rounded-sm h-max">
+              <h3 className="text-xl font-bold mb-5 text-yellow-600">
+                Released
+              </h3>
+              <p className="text-gray-300">{release_date}</p>
+            </div>
+          )}
+          {genres && (
+            <motion.div
+              initial={{opacity: 0, x: 50}}
+              animate={{opacity: 1, x: 0}}
+              exit={{opacity: 0, x: 50}}
+              transition={{duration: 0.6}}
+              className="p-6 bg-neutral-800 rounded-sm h-max">
+              <h2 className="text-xl font-bold mb-2 text-yellow-600">Genres</h2>
+              <ul className="flex flex-wrap gap-2">
+                {genres.map((genre, index) => (
+                  <li
+                    key={index}
+                    className="bg-neutral-700 px-2 py-1 rounded-sm text-gray-300">
+                    {genre.name}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+          {spoken_languages && (
+            <motion.div
+              initial={{opacity: 0, x: 50}}
+              animate={{opacity: 1, x: 0}}
+              exit={{opacity: 0, x: 50}}
+              transition={{duration: 0.7}}
+              className="p-6 bg-neutral-800 rounded-sm h-max">
+              <h2 className="text-xl font-bold mb-2 text-yellow-600">
+                Spoken languages
+              </h2>
+              <ul className="flex flex-wrap gap-2">
+                {spoken_languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="bg-neutral-700 px-2 py-1 rounded-sm text-gray-300">
+                    {language.english_name}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </motion.div>
       </div>
-    </>
+      <div className="container">
+        <h2 className="text-3xl font-bold text-yellow-600 mb-2">
+          Similar movies
+        </h2>
+        <SmallCardList list={similarMovies.results} />
+        <VideoList list={additionalVideosSliced} />
+      </div>
+    </div>
   );
 };
 

@@ -56,7 +56,7 @@ export const SmallCardList: React.FC<Props> = ({list}) => {
       itemClass="p-1"
       autoPlay={true}
       infinite={true}
-      autoPlaySpeed={5000}
+      autoPlaySpeed={10000}
       partialVisible={true}>
       {list.map(({title, id, vote_average, poster_path}) =>
         poster_path !== null ? (

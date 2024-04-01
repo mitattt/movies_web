@@ -7,7 +7,6 @@ export const VideoList = ({list}: {list: IVideo[]}) => {
       {list.map((video, index) => (
         <Video video={video} key={index}></Video>
       ))}
-      ;
     </ul>
   );
 };

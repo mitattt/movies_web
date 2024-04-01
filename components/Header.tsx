@@ -25,12 +25,12 @@ export const Header = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const isActive = path => {
+  const isActive = (path: string) => {
     return router.pathname === path;
   };
 
   return (
-    <nav className="flex items-center justify-between py-3 px-5 bg-black sticky top-0 z-50">
+    <nav className="flex items-center justify-between py-3 px-5 bg-black sticky top-0 z-[9999]">
       <div className="flex items-center">
         <Link href="/" passHref>
           <span
