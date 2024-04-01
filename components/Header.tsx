@@ -33,8 +33,11 @@ export const Header = () => {
     <nav className="flex items-center justify-between py-3 px-5 bg-black sticky top-0 z-50">
       <div className="flex items-center">
         <Link href="/" passHref>
-          <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
-            MyMovie
+          <span
+            className={`text-gray-300 hover:text-yellow-600 text-xl font-bold transition duration-100 ${
+              isActive('/') ? 'text-yellow-600' : ''
+            }`}>
+            MOH
           </span>
         </Link>
       </div>
@@ -149,7 +152,7 @@ export const Header = () => {
           <input
             type="text"
             placeholder="Search!"
-            className="py-2 px-4 rounded-lg w-full focus:outline-none bg-yellow-600 text-black placeholder-black"
+            className="py-2 px-4 rounded-sm w-full focus:outline-none bg-yellow-600 text-black placeholder-black"
             value={searchQuery}
             onChange={handleInputChange}
           />

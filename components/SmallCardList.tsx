@@ -11,29 +11,53 @@ type Props = {
 
 export const SmallCardList: React.FC<Props> = ({list}) => {
   const responsive = {
-    superLargeDesktop: {
-      breakpoint: {max: 4000, min: 1300},
+    XLLargeDesktop: {
+      breakpoint: {max: 3000, min: 1921},
       items: 10,
-      slidesToSlide: 3,
+      slidesToSlide: 5,
+      partialVisibilityGutter: 30,
+    },
+    extraLargeDesktop: {
+      breakpoint: {max: 1920, min: 1600},
+      items: 7,
+      slidesToSlide: 5,
+      partialVisibilityGutter: 30,
+    },
+    superLargeDesktop: {
+      breakpoint: {max: 1600, min: 1300},
+      items: 6,
+      slidesToSlide: 4,
+      partialVisibilityGutter: 30,
     },
     desktop: {
       breakpoint: {max: 1300, min: 1024},
-      items: 6,
+      items: 5,
       slidesToSlide: 2,
+      partialVisibilityGutter: 30,
     },
     tablet: {
       breakpoint: {max: 1024, min: 600},
       items: 4,
       slidesToSlide: 1,
+      partialVisibilityGutter: 30,
     },
     mobile: {
       breakpoint: {max: 600, min: 0},
       items: 2,
       slidesToSlide: 1,
+      partialVisibilityGutter: 30,
     },
   };
+
   return (
-    <Carousel responsive={responsive} containerClass="w-full" itemClass="p-1">
+    <Carousel
+      responsive={responsive}
+      containerClass="w-full"
+      itemClass="p-1"
+      autoPlay={true}
+      infinite={true}
+      autoPlaySpeed={5000}
+      partialVisible={true}>
       {list.map(({title, id, vote_average, poster_path}) =>
         poster_path !== null ? (
           <div key={id} className="flex justify-center">

@@ -5,7 +5,7 @@ export const ProgressBar = ({value, max}: {value: number; max: number}) => {
 
   return (
     <motion.div
-      className="bg-yellow-600 w-full h-4 rounded-full overflow-hidden"
+      className="bg-yellow-600 w-full h-4 rounded-sm overflow-hidden"
       initial={{width: 0}}
       animate={{width: `${percentage}%`}}
       transition={{duration: 1}}></motion.div>

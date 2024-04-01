@@ -13,6 +13,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {ProgressBar} from '../components/ProgressBar';
 import {CarouselRow} from '../components/CarouselRow';
+import {InfoSection} from '../components/InfoSection';
 
 interface Props {
   nowPlayingMovies: FreshMoviesResponse;
@@ -71,7 +72,7 @@ export default function Index({
                     fill={true}
                     objectFit="contain"
                     objectPosition="center"
-                    className="rounded-lg"
+                    className="rounded-sm"
                   />
                 </div>
               </motion.div>
@@ -113,7 +114,7 @@ export default function Index({
             </div>
             <Link href={`movies/${mostPopularMovie.id}`}>
               <motion.div
-                className="p-2 bg-yellow-600 rounded-lg w-max flex gap-2 items-center"
+                className="p-2 bg-yellow-600 rounded-sm w-max flex gap-2 items-center"
                 initial={{opacity: 0, scale: 0.7}}
                 animate={{opacity: 1, scale: 1}}
                 transition={{duration: 0.5, delay: 0.6}}>
@@ -142,26 +143,29 @@ export default function Index({
         </div>
       </section>
 
-      <CarouselRow
-        movies={popularMovies.results}
-        title="Top 20 popular movies"
-        link="/popular"
-      />
-      <CarouselRow
-        movies={topRatedMovies.results}
-        title="Top rated movies"
-        link="/topRated"
-      />
-      <CarouselRow
-        movies={upcomingMovies.results}
-        title="Top 20 upcoming movies"
-        link="/upcoming"
-      />
-      <CarouselRow
-        movies={nowPlayingMovies.results}
-        title="Top 20 now playing movies"
-        link="/nowPlaying"
-      />
+      <section className="w-full xl:w-[80vw] flex flex-col gap-8">
+        <CarouselRow
+          movies={popularMovies.results}
+          title="Top 20 popular movies"
+          link="/popular"
+        />
+        <CarouselRow
+          movies={topRatedMovies.results}
+          title="Top 20 rated movies"
+          link="/topRated"
+        />
+        <InfoSection />
+        <CarouselRow
+          movies={upcomingMovies.results}
+          title="Top 20 upcoming movies"
+          link="/upcoming"
+        />
+        <CarouselRow
+          movies={nowPlayingMovies.results}
+          title="Top 20 now playing movies"
+          link="/nowPlaying"
+        />
+      </section>
     </main>
   );
 }

@@ -1,12 +1,25 @@
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {IVideo} from '../types/Video';
 
 export const Video = ({video}: {video: IVideo}) => {
-  const iframeRef = useRef(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [iframeHeight, setIframeHeight] = useState<number | null>(null);
 
   useEffect(() => {
-    const height = (iframeRef.current.offsetWidth * 9) / 16 + 'px';
-    iframeRef.current.setAttribute('height', height);
+    const resizeIframe = () => {
+      if (iframeRef.current) {
+        const newHeight = (iframeRef.current.offsetWidth * 9) / 16;
+        setIframeHeight(newHeight);
+      }
+    };
+
+    resizeIframe();
+
+    window.addEventListener('resize', resizeIframe);
+
+    return () => {
+      window.removeEventListener('resize', resizeIframe);
+    };
   }, []);
 
   return (
@@ -18,6 +31,7 @@ export const Video = ({video}: {video: IVideo}) => {
         src={`https://www.youtube.com/embed/${video.key}`}
         ref={iframeRef}
         width="100%"
+        height={iframeHeight}
         title="Video"></iframe>
     </div>
   );

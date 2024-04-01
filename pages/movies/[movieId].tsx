@@ -53,9 +53,9 @@ const Movie = ({
   return (
     <>
       <div className="flex justify-center items-center p-5 md:p-0 flex-col gap-10">
-        <div className="container rounded-lg flex gap-5 flex-col md:flex-row">
+        <div className="container rounded-sm flex gap-5 flex-col md:flex-row">
           <div className="flex flex-col gap-5 w-full md:max-w-[200px]">
-            <div className="w-full  md:w-[200px] relative flex flex-row md:flex-col items-center gap-3 bg-neutral-800 rounded-lg md:pb-3 h-max">
+            <div className="w-full  md:w-[200px] relative flex flex-row md:flex-col items-center gap-3 bg-neutral-800 rounded-sm md:pb-3 h-max">
               <div className="h-[220px] w-[130px] md:h-[300px] md:w-[200px] relative shrink-0">
                 <Image
                   alt="Movie poster"
@@ -86,24 +86,24 @@ const Movie = ({
               </div>
             </div>
             {tagline.length > 0 && (
-              <div className="p-6 bg-neutral-800 rounded-lg h-max">
+              <div className="p-6 bg-neutral-800 rounded-sm h-max">
                 <h3 className="text-xl font-bold mb-2 text-yellow-600">
                   Tagline
                 </h3>
                 <p className="text-gray-300">{tagline}</p>
               </div>
             )}
-            <div className="p-6 bg-neutral-800 rounded-lg h-max">
+            <div className="p-6 bg-neutral-800 rounded-sm h-max">
               <h3 className="text-xl font-bold mb-2 text-yellow-600">Budget</h3>
               <p className="text-gray-300">{budget}$</p>
             </div>
           </div>
           <div className="flex flex-col gap-5">
-            <div className="p-6 bg-neutral-800 rounded-lg h-max">
+            <div className="p-6 bg-neutral-800 rounded-sm h-max">
               <h1 className="text-3xl font-bold text-yellow-600">{title}</h1>
             </div>
             {overview && (
-              <div className="p-6 bg-neutral-800 rounded-lg h-max">
+              <div className="p-6 bg-neutral-800 rounded-sm h-max">
                 <div className="mb-4">
                   <h3 className="text-xl font-bold mb-2 text-yellow-600">
                     Overview
@@ -113,7 +113,7 @@ const Movie = ({
               </div>
             )}
             {production_companies.length > 0 && (
-              <div className="p-6 bg-neutral-800 rounded-lg h-max">
+              <div className="p-6 bg-neutral-800 rounded-sm h-max">
                 <h3 className="text-xl font-bold mb-4 text-yellow-600">
                   Production companies
                 </h3>
@@ -123,7 +123,7 @@ const Movie = ({
                     return (
                       <li
                         key={company.id}
-                        className="flex gap-5 items-center bg-neutral-700 rounded-lg p-2">
+                        className="flex gap-5 items-center bg-neutral-700 rounded-sm p-2">
                         {isImage && (
                           <div className="relative h-[60px] w-[60px]">
                             <Image
@@ -145,7 +145,7 @@ const Movie = ({
           </div>
           <div className="flex flex-col gap-5">
             {release_date && (
-              <div className="p-6 bg-neutral-800 rounded-lg h-max">
+              <div className="p-6 bg-neutral-800 rounded-sm h-max">
                 <h3 className="text-xl font-bold mb-5 text-yellow-600">
                   Released
                 </h3>
@@ -153,7 +153,7 @@ const Movie = ({
               </div>
             )}
             {genres && (
-              <div className="p-6 bg-neutral-800 rounded-lg h-max">
+              <div className="p-6 bg-neutral-800 rounded-sm h-max">
                 <h2 className="text-xl font-bold mb-2 text-yellow-600">
                   Genres
                 </h2>
@@ -161,7 +161,7 @@ const Movie = ({
                   {genres.map((genre, index) => (
                     <li
                       key={index}
-                      className="bg-neutral-700 px-2 py-1 rounded text-gray-300">
+                      className="bg-neutral-700 px-2 py-1 rounded-sm text-gray-300">
                       {genre.name}
                     </li>
                   ))}
