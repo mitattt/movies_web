@@ -8,18 +8,14 @@ import gsap from 'gsap';
 
 export default function App({Component, pageProps}: AppProps) {
   useEffect(() => {
-    gsap.set('.ball', {xPercent: -50, yPercent: -50, scale: 0});
-    let targets = gsap.utils.toArray('.ball');
+    gsap.set('.ball', {xPercent: -50, yPercent: -50});
+
+    const xTo = gsap.quickTo('.ball', 'x', {duration: 0.6, ease: 'power3'}),
+      yTo = gsap.quickTo('.ball', 'y', {duration: 0.6, ease: 'power3'});
+
     window.addEventListener('mousemove', e => {
-      gsap.to(targets, {
-        duration: 0.5,
-        x: e.clientX,
-        y: e.clientY,
-        ease: 'power1.out',
-        overwrite: 'auto',
-        stagger: 0.02,
-        scale: 1.4,
-      });
+      xTo(e.clientX);
+      yTo(e.clientY);
     });
   }, []);
 
@@ -27,19 +23,7 @@ export default function App({Component, pageProps}: AppProps) {
     <UserContextProvider>
       <Layout>
         <div
-          className="ball bg-yellow-500 w-4 h-4 fixed top-0 left-0 rounded-full z-[9999]"
-          style={{pointerEvents: 'none'}}></div>
-        <div
-          className="ball bg-yellow-500 w-4 h-4 fixed top-0 left-0 rounded-full z-[9999]"
-          style={{pointerEvents: 'none'}}></div>
-        <div
-          className="ball bg-yellow-500 w-4 h-4 fixed top-0 left-0 rounded-full z-[9999]"
-          style={{pointerEvents: 'none'}}></div>
-        <div
-          className="ball bg-yellow-500 w-4 h-4 fixed top-0 left-0 rounded-full z-[9999]"
-          style={{pointerEvents: 'none'}}></div>
-        <div
-          className="ball bg-yellow-500 w-4 h-4 fixed top-0 left-0 rounded-full z-[9999]"
+          className="ball border-[3px] border-white border-width-3 w-[50px] h-[50px] fixed top-0 left-0 rounded-full z-[9999]"
           style={{pointerEvents: 'none'}}></div>
         <Component {...pageProps} />
       </Layout>
