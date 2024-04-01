@@ -25,11 +25,15 @@ export const Header = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const isActive = path => {
+    return router.pathname === path;
+  };
+
   return (
     <nav className="flex items-center justify-between py-3 px-5 bg-black sticky top-0 z-50">
       <div className="flex items-center">
         <Link href="/" passHref>
-          <span className=" text-gray-300 hover:text-yellow-600 transition duration-100">
+          <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
             MyMovie
           </span>
         </Link>
@@ -70,27 +74,42 @@ export const Header = () => {
         </div>
         <div className="hidden md:flex gap-8">
           <Link href="/popular" passHref>
-            <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
+            <span
+              className={`text-gray-300 transition duration-100 hover:text-yellow-600 ${
+                isActive('/popular') ? 'text-yellow-600' : ''
+              }`}>
               Popular
             </span>
           </Link>
           <Link href="/topRated" passHref>
-            <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
+            <span
+              className={`text-gray-300 transition duration-100 hover:text-yellow-600 ${
+                isActive('/topRated') ? 'text-yellow-600' : ''
+              }`}>
               Top Rated
             </span>
           </Link>
           <Link href="/upcoming" passHref>
-            <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
+            <span
+              className={`text-gray-300 transition duration-100 hover:text-yellow-600 ${
+                isActive('/upcoming') ? 'text-yellow-600' : ''
+              }`}>
               Upcoming
             </span>
           </Link>
           <Link href="/nowPlaying" passHref>
-            <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
+            <span
+              className={`text-gray-300 transition duration-100 hover:text-yellow-600 ${
+                isActive('/nowPlaying') ? 'text-yellow-600' : ''
+              }`}>
               Now playing
             </span>
           </Link>
           <Link href="/favorites" passHref>
-            <span className="text-gray-300 hover:text-yellow-600 transition duration-100">
+            <span
+              className={`text-gray-300 transition duration-100 hover:text-yellow-600 ${
+                isActive('/favorites') ? 'text-yellow-600' : ''
+              }`}>
               Favorites
             </span>
           </Link>
