@@ -1,4 +1,5 @@
 module.exports = {
+  output: 'export',
   images: {
     remotePatterns: [
       {
@@ -9,4 +10,4 @@ module.exports = {
       },
     ],
   },
-}
+};
