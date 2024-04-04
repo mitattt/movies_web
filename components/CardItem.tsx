@@ -75,7 +75,7 @@ export const CardItem: React.FC<Props> = ({imgUrl, movieId, vote}) => {
             })}
             strokeWidth={12}>
             <p className="text-sm font-semibold" style={{color}}>
-              {vote.toFixed(1)}
+              {vote ? vote.toFixed(1) : 'N/A'}
             </p>
           </CircularProgressbarWithChildren>
         </div>

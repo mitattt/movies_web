@@ -1,21 +1,12 @@
 import {GetServerSideProps} from 'next';
-import {useRouter} from 'next/router';
 import {getMovieDetails} from '../api';
 import {CardList} from '../components/CardList';
 import {CustomHead} from '../components/CustomHead';
 
 export default function Favorites({movies}) {
-  const router = useRouter();
-
   return (
     <div className="container-xl">
-      <CustomHead title={'Favorites'} />
-      <div className="d-flex justify-content-between align-items-center mx-3">
-        <h1 className="my-3 text-gray-300">Favorites</h1>
-        <button onClick={() => router.back()} className="h-50 text-gray-400">
-          Go back
-        </button>
-      </div>
+      <CustomHead title="Favorites" />
       <CardList list={movies} />
     </div>
   );
@@ -27,7 +18,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     : [];
 
   try {
-    const moviePromises = favoritesIds.map(id => getMovieDetails(id));
+    const moviePromises = favoritesIds.map((id: number) => getMovieDetails(id));
     const movies = await Promise.all(moviePromises);
 
     return {

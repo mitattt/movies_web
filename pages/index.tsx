@@ -10,6 +10,7 @@ import {CommonMoviesResponse, FreshMoviesResponse} from '../types/MovieTypes';
 import {CarouselRow} from '../components/CarouselRow';
 import {InfoSection} from '../components/InfoSection';
 import {FullsizedMovieSection} from '../components/FullsizedMovieSection';
+import {CustomHead} from '../components/CustomHead';
 
 interface Props {
   nowPlayingMovies: FreshMoviesResponse;
@@ -28,6 +29,7 @@ export default function Index({
 
   return (
     <main className="bg-black flex justify-center items-center flex-col gap-5 ">
+      <CustomHead title="MOH | Home" />
       <FullsizedMovieSection mostPopularMovie={mostPopularMovie} />
       <section className="w-full xl:w-[80vw] flex flex-col gap-8 px-5">
         <CarouselRow

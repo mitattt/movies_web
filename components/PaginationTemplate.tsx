@@ -11,7 +11,8 @@ export const PaginationTemplate: React.FC<Props> = ({total}) => {
   const router = useRouter();
   let currentPage = +router.query.page;
   const perPage = 20;
-  const pageCount = Math.ceil(total / perPage);
+  const pageCount = Math.min(Math.ceil(total / perPage), 500);
+
   const maxPageLinks = 5;
   const pageOffset = Math.floor(maxPageLinks / 2);
   const pageStart = Math.max(1, currentPage - pageOffset);
@@ -30,60 +31,71 @@ export const PaginationTemplate: React.FC<Props> = ({total}) => {
     const route = router.route.startsWith('/search')
       ? `/search/[query]`
       : router.route;
-    router.push(`${route}?${queryParam}page=${pageNum}`);
+    const queryParams = new URLSearchParams(router.query);
+    queryParams.set('page', pageNum.toString());
+    const queryString = queryParams.toString();
+    router.push(`${route}?${queryParam}${queryString}`);
   };
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 sm:px-6">
+    <div className="flex items-center justify-between p-[16px] sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
-        <button
-          onClick={() => changePage(currentPage - 1)}
-          disabled={isFirstPage}
-          className={`relative inline-flex items-center rounded-md bg-yellow-600 px-4 py-2 text-sm font-medium text-black ${
-            isFirstPage ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
-          }`}>
-          Previous
-        </button>
-        <button
-          onClick={() => changePage(currentPage + 1)}
-          disabled={isLastPage}
-          className={`relative inline-flex items-center rounded-md bg-yellow-600 px-4 py-2 text-sm font-medium text-black ${
-            isLastPage ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
-          }`}>
-          Next
-        </button>
-      </div>
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-gray-700">
-            Showing{' '}
-            <span className="font-medium">{(currentPage - 1) * perPage}</span>{' '}
-            to <span className="font-medium">{currentPage * perPage}</span> of{' '}
-            <span className="font-medium">{total}</span> results
-          </p>
-        </div>
-        <nav className="hidden sm:flex" aria-label="Pagination">
+        {!isFirstPage && (
           <button
             onClick={() => changePage(currentPage - 1)}
             disabled={isFirstPage}
-            className={`relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-700 ring-1 ring-inset ring-yellow-600 focus:z-20 focus:outline-offset-0 cursor-pointer ${
+            className={`relative inline-flex items-center  bg-yellow-600 p-[16px] text-sm font-medium text-black rounded-sm ${
               isFirstPage ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
             }`}>
-            <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+            Previous
           </button>
+        )}
+        {!isLastPage && (
+          <button
+            onClick={() => changePage(currentPage + 1)}
+            disabled={isLastPage}
+            className={`relative inline-flex items-center bg-yellow-600 p-[16px] text-sm font-medium text-black rounded-sm ${
+              isLastPage ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
+            }`}>
+            Next
+          </button>
+        )}
+      </div>
+      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+        <div>
+          <p className="text-sm text-yellow-600">
+            Showing{' '}
+            <span className="font-medium">{(currentPage - 1) * perPage}</span>{' '}
+            to <span className="font-medium">{currentPage * perPage}</span> of{' '}
+            <span className="font-medium">{perPage * pageCount}</span> results
+          </p>
+        </div>
+        <nav className="hidden sm:flex" aria-label="Pagination">
+          {!isFirstPage && (
+            <button
+              onClick={() => changePage(currentPage - 1)}
+              disabled={isFirstPage}
+              className={`relative inline-flex items-center p-[12px] text-sm font-medium text-white focus:z-20 focus:outline-offset-0 cursor-pointer rounded-sm hover:text-black ${
+                isFirstPage
+                  ? 'opacity-50 cursor-not-allowed text-black'
+                  : 'hover:bg-yellow-600'
+              }`}>
+              <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+            </button>
+          )}
           {pageStart > 1 && (
             <>
               <button
                 onClick={() => changePage(1)}
-                className={`relative inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-inset ring-yellow-600 focus:z-20 focus:outline-offset-0 cursor-pointer ${
+                className={`relative inline-flex items-center p-[12px] text-sm font-medium text-white focus:z-20 focus:outline-offset-0 cursor-pointer rounded-sm hover:text-black ${
                   isFirstPage
-                    ? 'opacity-50 cursor-not-allowed'
-                    : 'hover:bg-gray-50'
+                    ? 'opacity-50 cursor-not-allowed text-black '
+                    : 'hover:bg-yellow-600 text-black '
                 }`}>
                 1
               </button>
               {pageStart > 2 && (
-                <span className="relative inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-inset ring-yellow-600">
+                <span className="relative inline-flex items-center p-[12px] text-sm font-medium text-white rounded-sm">
                   ...
                 </span>
               )}
@@ -93,8 +105,10 @@ export const PaginationTemplate: React.FC<Props> = ({total}) => {
             <button
               key={num}
               onClick={() => changePage(num)}
-              className={`relative inline-flex items-center px-[16px] py-3 text-sm font-medium text-gray-700 ring-1 ring-inset ring-yellow-600 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 cursor-pointer ${
-                num === currentPage ? 'bg-yellow-600' : ''
+              className={`relative inline-flex items-center p-[12px] text-sm font-medium hover:text-black ${
+                num === currentPage ? 'bg-yellow-600 text-black' : 'text-white'
+              } hover:bg-yellow-600 focus:z-20 focus:outline-offset-0 cursor-pointer rounded-sm hover:text-black ${
+                num === currentPage ? 'hover:text-black' : ''
               }`}>
               {num}
             </button>
@@ -102,29 +116,29 @@ export const PaginationTemplate: React.FC<Props> = ({total}) => {
           {pageEnd < pageCount && (
             <>
               {pageEnd < pageCount - 1 && (
-                <span className="relative inline-flex items-center px-[16px] py-2 text-sm font-medium text-gray-700 ring-1 ring-inset ring-yellow-600">
+                <span className="relative inline-flex items-center p-[12px] text-sm font-medium text-white rounded-sm">
                   ...
                 </span>
               )}
               <button
                 onClick={() => changePage(pageCount)}
-                className={`relative inline-flex items-center px-[16px] py-3 text-sm font-medium text-gray-700 ring-1 ring-inset ring-yellow-600 focus:z-20 focus:outline-offset-0 cursor-pointer ${
+                className={`relative inline-flex items-center p-[12px] text-sm font-medium text-white focus:z-20 focus:outline-offset-0 cursor-pointer rounded-sm hover:text-black ${
                   isLastPage
-                    ? 'opacity-50 cursor-not-allowed'
-                    : 'hover:bg-gray-50'
+                    ? 'opacity-50 cursor-not-allowed text-black'
+                    : 'hover:bg-yellow-600 text-black'
                 }`}>
                 {pageCount}
               </button>
             </>
           )}
-          <button
-            onClick={() => changePage(currentPage + 1)}
-            disabled={isLastPage}
-            className={`relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-700 ring-1 ring-inset ring-yellow-600 focus:z-20 focus:outline-offset-0 cursor-pointer ${
-              isLastPage ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
-            }`}>
-            <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-          </button>
+          {!isLastPage && (
+            <button
+              onClick={() => changePage(currentPage + 1)}
+              disabled={isLastPage}
+              className={`relative inline-flex items-center p-[12px] text-sm rounded-sm font-medium text-white focus:z-20 focus:outline-offset-0 cursor-pointer hover:text-black hover:bg-yellow-600`}>
+              <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+            </button>
+          )}
         </nav>
       </div>
     </div>

@@ -9,6 +9,7 @@ import {
   baseImagePath,
   getAdditionalVideos,
   getMovieDetails,
+  getMovieReviews,
   getSimilarVideos,
 } from '../../api';
 import {motion} from 'framer-motion';
@@ -17,15 +18,18 @@ import {CommonMoviesResponse, MovieByID} from '../../types/MovieTypes';
 import {SmallCardList} from '../../components/SmallCardList';
 import {VideoList} from '../../components/VideoList';
 import {VideoResponse} from '../../types/Video';
+import {Review} from '../../types/Reviews';
 
 const Movie = ({
   movieDetails,
   similarMovies,
   additionalVideos,
+  reviews,
 }: {
   movieDetails: MovieByID;
   similarMovies: CommonMoviesResponse;
   additionalVideos: VideoResponse;
+  reviews: Review[];
 }) => {
   const {
     genres,
@@ -38,11 +42,8 @@ const Movie = ({
     production_companies,
     budget,
     overview,
-    backdrop_path,
   } = movieDetails;
-  const additionalVideosSliced = additionalVideos.results.slice(0, 5);
-
-  console.log(additionalVideos);
+  const additionalVideosSliced = additionalVideos.results.slice(0, 3);
 
   const getColorForRating = (rating: number) => {
     if (rating < 5) return '#ff8c5a';
@@ -62,7 +63,7 @@ const Movie = ({
             exit={{opacity: 0, x: -50}}
             transition={{duration: 0.5}}
             className="w-full  md:w-[200px] relative flex flex-row md:flex-col items-center gap-3 bg-neutral-800 rounded-sm md:pb-3 h-max">
-            <div className="h-[220px] w-[130px] md:h-[300px] md:w-[200px] relative shrink-0">
+            <div className="h-[250px] w-[150px] md:h-[300px] md:w-[200px] relative shrink-0">
               <Image
                 alt="Movie poster"
                 src={baseImagePath('w780', poster_path)}
@@ -173,6 +174,48 @@ const Movie = ({
               </ul>
             </motion.div>
           )}
+          {reviews.length > 0 && (
+            <motion.div
+              initial={{opacity: 0}}
+              animate={{opacity: 1}}
+              exit={{opacity: 0}}
+              transition={{duration: 0.7}}
+              className="p-6 bg-neutral-800 rounded-sm h-max">
+              <h3 className="text-xl font-bold mb-4 text-yellow-600">
+                Reviews
+              </h3>
+              <ul className="flex flex-wrap gap-5">
+                {reviews.map(review => {
+                  const isImage = review.author_details.avatar_path;
+                  return (
+                    <li
+                      key={review.id}
+                      className="flex md:flex-row flex-col items-center justify-center gap-4 bg-neutral-700 rounded-sm p-4 w-full ">
+                      {isImage && (
+                        <div className="relative h-[100px] w-[100px] flex-shrink-0 ">
+                          <Image
+                            src={baseImagePath(
+                              'h632',
+                              review.author_details.avatar_path,
+                            )}
+                            alt="Logo"
+                            fill={true}
+                            objectFit="contain"
+                            objectPosition="center"
+                            className="rounded-full"
+                          />
+                        </div>
+                      )}
+                      <div className="flex flex-col w-full h-full overflow-hidden">
+                        <p className="text-gray-300 text-xl">{review.author}</p>
+                        <p className="text-gray-300 ">{review.content}</p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </motion.div>
+          )}
         </div>
         <motion.div
           initial={{opacity: 0, x: 50}}
@@ -246,20 +289,26 @@ export default Movie;
 export const getServerSideProps: GetServerSideProps = async ({query}) => {
   const id = +query.movieId;
   try {
-    const [movieDetails, similarMovies, additionalVideos] = await Promise.all([
-      getMovieDetails(id),
-      getSimilarVideos(id),
-      getAdditionalVideos(id),
-    ]);
+    const [movieDetails, similarMovies, additionalVideos, reviews] =
+      await Promise.all([
+        getMovieDetails(id),
+        getSimilarVideos(id),
+        getAdditionalVideos(id),
+        getMovieReviews(id),
+      ]);
     return {
       props: {
         movieDetails,
         similarMovies,
         additionalVideos: additionalVideos,
+        reviews: reviews.results.slice(0, 2),
       },
     };
   } catch (error) {
     console.error('Error fetching data:', error);
-    return {props: {movieDetails: {}, similarMovies: [], additionalVideos: []}};
+    return {
+      props: {movieDetails: {}, similarMovies: [], additionalVideos: []},
+      reviews: [],
+    };
   }
 };

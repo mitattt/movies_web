@@ -4,6 +4,7 @@ import {getTopRatedMovies} from '../api';
 import {Movie} from '../types/MovieTypes';
 import {CardList} from '../components/CardList';
 import {PaginationTemplate} from '../components/PaginationTemplate';
+import {CustomHead} from '../components/CustomHead';
 
 interface Props {
   topRatedMovies: Movie[];
@@ -15,6 +16,7 @@ export default function TopRated({topRatedMovies, totalResults}: Props) {
     <div
       className="flex flex-col container-xl min-h-screen"
       style={{minHeight: 'calc(100vh - 60px)'}}>
+      <CustomHead title="Top Rated" />
       {topRatedMovies.length > 0 ? (
         <div className="flex flex-col gap-10">
           <CardList list={topRatedMovies} />

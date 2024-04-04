@@ -1,28 +1,31 @@
 import React from 'react';
-import {Movie} from '../../types/MovieTypes';
-import {CardList} from '../../components/CardList';
-import {PaginationTemplate} from '../../components/PaginationTemplate';
 import {GetServerSideProps} from 'next';
-import {getSearchMovies} from '../../api';
-import {Filters} from '../../components/Filters';
-import {CustomHead} from '../../components/CustomHead';
+import {Movie} from '../types/MovieTypes';
+import {Filters} from '../components/Filters';
+import {CardList} from '../components/CardList';
+import {PaginationTemplate} from '../components/PaginationTemplate';
+import {getExpandedMovies} from '../api';
+import {CustomHead} from '../components/CustomHead';
 
 interface Props {
   searchMovies: Movie[];
   totalResults: number;
 }
 
-export default function SearchedMovies({searchMovies = []}: Props) {
+export default function AdvancedSearch({
+  searchMovies = [],
+  totalResults,
+}: Props) {
   return (
     <div
       className="flex flex-col container-xl min-h-screen gap-10 "
       style={{minHeight: 'calc(100vh - 60px)'}}>
-      <CustomHead title="Search by title" />
+      <CustomHead title="Advanced Search" />
       <Filters />
       {searchMovies.length > 0 ? (
         <div className="flex flex-col gap-10">
           <CardList list={searchMovies} />
-          <PaginationTemplate />
+          <PaginationTemplate total={totalResults} />
         </div>
       ) : (
         <h1 className="text-center text-gray-300">
@@ -34,19 +37,18 @@ export default function SearchedMovies({searchMovies = []}: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
-  let {query: searchQuery, page} = query;
+  let {page} = query;
 
   try {
-    const searchString = Array.isArray(searchQuery)
-      ? searchQuery[0]
-      : searchQuery;
     let pageNumber = 1;
 
     if (page !== undefined) {
       pageNumber = Array.isArray(page) ? +page[0] : +page;
     }
+    const firstAmp = req.url.indexOf('&');
+    const url = req.url.substring(firstAmp);
 
-    const searchMovies = await getSearchMovies(searchString, pageNumber);
+    const searchMovies = await getExpandedMovies(pageNumber, url);
 
     if (!searchMovies || !searchMovies.results) {
       throw new Error('Search movies data not available');

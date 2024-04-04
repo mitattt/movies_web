@@ -5,6 +5,7 @@ import {ProgressBar} from './ProgressBar';
 import Link from 'next/link';
 import React from 'react';
 import {Movie} from '../types/MovieTypes';
+import {Magnetic} from './Magnetic/Magnetic';
 
 export const FullsizedMovieSection = ({
   mostPopularMovie,
@@ -33,10 +34,10 @@ export const FullsizedMovieSection = ({
           )})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          filter: 'blur(2px)',
           zIndex: -1,
         }}>
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black to-transparent"></div>
       </div>
       <div className="flex flex-col md:flex-row p-8 gap-5 items-center w-full md:w-[90vw] lg:w-[80vw] xl:w-[65vw]">
         <AnimatePresence>
@@ -94,32 +95,34 @@ export const FullsizedMovieSection = ({
             </p>
           </div>
           <Link href={`movies/${mostPopularMovie.id}`}>
-            <motion.div
-              className="p-2 bg-yellow-600 rounded-sm w-max flex gap-2 items-center border border-yellow-600"
-              initial={{opacity: 0, scale: 0.7}}
-              animate={{opacity: 1, scale: 1}}
-              whileHover={{borderColor: '#FFF', transition: {duration: 0.2}}}
-              transition={{duration: 0.5, delay: 0.6}}>
-              <p className="text-sm font-semibold">See more</p>
-              <svg
-                fill="#000000"
-                height="13px"
-                width="13px"
-                version="1.1"
-                id="Layer_1"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512">
-                <g>
+            <Magnetic>
+              <motion.div
+                className="p-2 bg-yellow-600 rounded-sm w-max flex gap-2 items-center border border-yellow-600"
+                initial={{opacity: 0, scale: 0.7}}
+                animate={{opacity: 1, scale: 1}}
+                whileHover={{borderColor: '#FFF', transition: {duration: 0.2}}}
+                transition={{duration: 0.5, delay: 0.6}}>
+                <p className="text-sm font-semibold">See more</p>
+                <svg
+                  fill="#000000"
+                  height="13px"
+                  width="13px"
+                  version="1.1"
+                  id="Layer_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512">
                   <g>
-                    <path
-                      d="M500.203,236.907L30.869,2.24c-6.613-3.285-14.443-2.944-20.736,0.939C3.84,7.083,0,13.931,0,21.333v469.333
+                    <g>
+                      <path
+                        d="M500.203,236.907L30.869,2.24c-6.613-3.285-14.443-2.944-20.736,0.939C3.84,7.083,0,13.931,0,21.333v469.333
       c0,7.403,3.84,14.251,10.133,18.155c3.413,2.112,7.296,3.179,11.2,3.179c3.264,0,6.528-0.747,9.536-2.24l469.333-234.667
       C507.435,271.467,512,264.085,512,256S507.435,240.533,500.203,236.907z"
-                    />
+                      />
+                    </g>
                   </g>
-                </g>
-              </svg>
-            </motion.div>
+                </svg>
+              </motion.div>
+            </Magnetic>
           </Link>
         </div>
       </div>

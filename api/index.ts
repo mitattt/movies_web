@@ -4,6 +4,8 @@ import {
   MovieByID,
 } from '../types/MovieTypes';
 import {VideoResponse} from '../types/Video';
+import {Genres} from '../types/Genres';
+import {ReviewResponse} from '../types/Reviews';
 
 const API_KEY = 'bfffaf71459ee055fb33c621c9cd67bc';
 const BASE_URL = 'https://api.themoviedb.org/3/';
@@ -72,6 +74,20 @@ export const getTopRatedMovies = (page: number = 1) => {
 export const getSearchMovies = (keyword: string, page: number) => {
   return client.get<CommonMoviesResponse>(
     `search/movie?api_key=${API_KEY}&query=${keyword}&page=${page}`,
+  );
+};
+
+export const getGenres = () => {
+  return client.get<Genres>(`genre/movie/list?api_key=${API_KEY}`);
+};
+
+export const getMovieReviews = (id: number) => {
+  return client.get<ReviewResponse>(`movie/${id}/reviews?api_key=${API_KEY}`);
+};
+
+export const getExpandedMovies = (page: number, url: string = '') => {
+  return client.get<CommonMoviesResponse>(
+    `discover/movie?page=${page}${url ? '&' + url : ''}&api_key=${API_KEY}`,
   );
 };
 
