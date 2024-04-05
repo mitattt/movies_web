@@ -14,6 +14,7 @@ interface Props {
 }
 
 export const CardItem: React.FC<Props> = ({imgUrl, movieId, vote}) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [select, setSelect] = useState(false);
   const {favoritesIds, setFavoritesIds} = useContext(UserContext);
   const isFavorite = favoritesIds.find(id => id === movieId);
@@ -59,7 +60,12 @@ export const CardItem: React.FC<Props> = ({imgUrl, movieId, vote}) => {
             layout="fill"
             objectFit="cover"
             objectPosition="center"
-            loading="lazy"
+            className={`${
+              isLoading
+                ? 'scale-110 blur-2xl grayscale'
+                : 'scale-100 blur-0 grayscale-0'
+            }`}
+            onLoadingComplete={() => setIsLoading(false)}
           />
         </div>
 
