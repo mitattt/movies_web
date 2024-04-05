@@ -12,7 +12,10 @@ interface Props {
   totalResults: number;
 }
 
-export default function SearchedMovies({searchMovies = []}: Props) {
+export default function SearchedMovies({
+  searchMovies = [],
+  totalResults,
+}: Props) {
   return (
     <div
       className="flex flex-col container-xl min-h-screen gap-10 "
@@ -22,7 +25,7 @@ export default function SearchedMovies({searchMovies = []}: Props) {
       {searchMovies.length > 0 ? (
         <div className="flex flex-col gap-10">
           <CardList list={searchMovies} />
-          <PaginationTemplate />
+          <PaginationTemplate total={totalResults} />
         </div>
       ) : (
         <h1 className="text-center text-gray-300">

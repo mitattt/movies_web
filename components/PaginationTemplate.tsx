@@ -31,9 +31,21 @@ export const PaginationTemplate: React.FC<Props> = ({total}) => {
     const route = router.route.startsWith('/search')
       ? `/search/[query]`
       : router.route;
-    const queryParams = new URLSearchParams(router.query);
-    queryParams.set('page', pageNum.toString());
-    const queryString = queryParams.toString();
+    const queryStr = Object.entries(router.query)
+      .map(([key, value]) => {
+        if (Array.isArray(value)) {
+          return value
+            .map(val => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
+            .join('&');
+        } else {
+          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        }
+      })
+      .join('&');
+
+    const params = new URLSearchParams(queryStr);
+    params.set('page', pageNum.toString());
+    const queryString = params.toString();
     router.push(`${route}?${queryParam}${queryString}`);
   };
 

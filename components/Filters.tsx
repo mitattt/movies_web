@@ -1,9 +1,9 @@
-import Select from 'react-select';
 import React, {useEffect, useState} from 'react';
 import {getGenres} from '../api';
 import {FormattedGenre} from '../types/Genres';
 import {useRouter} from 'next/router';
 import {Magnetic} from './Magnetic/Magnetic';
+import Select from 'react-select';
 
 const customStyles = {
   control: provided => ({
@@ -112,7 +112,19 @@ export const Filters = () => {
   }, []);
 
   useEffect(() => {
-    const params = new URLSearchParams(router.query);
+    const queryStr = Object.entries(router.query)
+      .map(([key, value]) => {
+        if (Array.isArray(value)) {
+          return value
+            .map(val => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
+            .join('&');
+        } else {
+          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        }
+      })
+      .join('&');
+
+    const params = new URLSearchParams(queryStr);
 
     const selectedGenresFromUrl = params.get('with_genres');
     if (selectedGenresFromUrl && allGenres.length > 0) {
@@ -161,7 +173,19 @@ export const Filters = () => {
   }, [allGenres, router.query]);
 
   const updateURLParams = () => {
-    const params = new URLSearchParams(router.query);
+    const queryStr = Object.entries(router.query)
+      .map(([key, value]) => {
+        if (Array.isArray(value)) {
+          return value
+            .map(val => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
+            .join('&');
+        } else {
+          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        }
+      })
+      .join('&');
+
+    const params = new URLSearchParams(queryStr);
 
     const selectedGenres = selectedGenre
       ? selectedGenre.map((genre: FormattedGenre) => genre.value).join(',')
@@ -206,7 +230,19 @@ export const Filters = () => {
 
     setSelectedGenre(selectedGenres);
 
-    const params = new URLSearchParams(router.query);
+    const queryStr = Object.entries(router.query)
+      .map(([key, value]) => {
+        if (Array.isArray(value)) {
+          return value
+            .map(val => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
+            .join('&');
+        } else {
+          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        }
+      })
+      .join('&');
+
+    const params = new URLSearchParams(queryStr);
 
     if (selectedGenres.length > 0) {
       const selectedGenresIds = selectedGenres
