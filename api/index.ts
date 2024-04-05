@@ -6,6 +6,7 @@ import {
 import {VideoResponse} from '../types/Video';
 import {Genres} from '../types/Genres';
 import {ReviewResponse} from '../types/Reviews';
+import {WatchProviderResponse} from '../types/WatchProviders';
 
 const API_KEY = 'bfffaf71459ee055fb33c621c9cd67bc';
 const BASE_URL = 'https://api.themoviedb.org/3/';
@@ -44,6 +45,12 @@ export const getNowPlayingMovies = (page: number = 1) => {
 export const getSimilarVideos = (movieId: number) => {
   return client.get<CommonMoviesResponse>(
     `movie/${movieId}/similar?api_key=${API_KEY}`,
+  );
+};
+
+export const getMovieProviders = (movieId: number) => {
+  return client.get<WatchProviderResponse>(
+    `movie/${movieId}/watch/providers?api_key=${API_KEY}`,
   );
 };
 
