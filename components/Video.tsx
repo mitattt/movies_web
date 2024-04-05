@@ -31,7 +31,7 @@ export const Video = ({video}: {video: IVideo}) => {
         src={`https://www.youtube.com/embed/${video.key}`}
         ref={iframeRef}
         width="100%"
-        height={iframeHeight}
+        height={iframeHeight || 0}
         title="Video"></iframe>
     </div>
   );

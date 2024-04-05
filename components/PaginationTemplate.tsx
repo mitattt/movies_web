@@ -9,7 +9,8 @@ type Props = {
 
 export const PaginationTemplate: React.FC<Props> = ({total}) => {
   const router = useRouter();
-  let currentPage = +router.query.page;
+  let currentPage = router.query.page ? +router.query.page : 1;
+
   const perPage = 20;
   const pageCount = Math.min(Math.ceil(total / perPage), 500);
 
@@ -38,7 +39,9 @@ export const PaginationTemplate: React.FC<Props> = ({total}) => {
             .map(val => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
             .join('&');
         } else {
-          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+          return `${encodeURIComponent(key)}=${encodeURIComponent(
+            value || '',
+          )}`;
         }
       })
       .join('&');

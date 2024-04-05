@@ -291,7 +291,20 @@ const Movie = ({
 export default Movie;
 
 export const getServerSideProps: GetServerSideProps = async ({query}) => {
+  if (!query || typeof query.movieId !== 'string') {
+    return {
+      props: {
+        movieDetails: {},
+        similarMovies: [],
+        additionalVideos: [],
+        reviews: [],
+        providers: [],
+      },
+    };
+  }
+
   const id = +query.movieId;
+
   try {
     const [movieDetails, similarMovies, additionalVideos, reviews, providers] =
       await Promise.all([
@@ -313,9 +326,13 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
   } catch (error) {
     console.error('Error fetching data:', error);
     return {
-      props: {movieDetails: {}, similarMovies: [], additionalVideos: []},
-      reviews: [],
-      providers: [],
+      props: {
+        movieDetails: {},
+        similarMovies: [],
+        additionalVideos: [],
+        reviews: [],
+        providers: [],
+      },
     };
   }
 };

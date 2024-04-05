@@ -45,8 +45,8 @@ export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
     if (page !== undefined) {
       pageNumber = Array.isArray(page) ? +page[0] : +page;
     }
-    const firstAmp = req.url.indexOf('&');
-    const url = req.url.substring(firstAmp);
+
+    const url = req?.url ?? '';
 
     const searchMovies = await getExpandedMovies(pageNumber, url);
 

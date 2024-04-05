@@ -4,7 +4,6 @@ import {CardList} from '../../components/CardList';
 import {PaginationTemplate} from '../../components/PaginationTemplate';
 import {GetServerSideProps} from 'next';
 import {getSearchMovies} from '../../api';
-import {Filters} from '../../components/Filters';
 import {CustomHead} from '../../components/CustomHead';
 
 interface Props {
@@ -21,7 +20,6 @@ export default function SearchedMovies({
       className="flex flex-col container-xl min-h-screen gap-10 "
       style={{minHeight: 'calc(100vh - 60px)'}}>
       <CustomHead title="Search by title" />
-      <Filters />
       {searchMovies.length > 0 ? (
         <div className="flex flex-col gap-10">
           <CardList list={searchMovies} />
@@ -40,9 +38,12 @@ export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
   let {query: searchQuery, page} = query;
 
   try {
-    const searchString = Array.isArray(searchQuery)
-      ? searchQuery[0]
-      : searchQuery;
+    const searchString = searchQuery
+      ? Array.isArray(searchQuery)
+        ? searchQuery[0]
+        : searchQuery
+      : '';
+
     let pageNumber = 1;
 
     if (page !== undefined) {

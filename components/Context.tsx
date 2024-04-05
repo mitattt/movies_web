@@ -2,7 +2,7 @@ import React, {ReactNode, useState} from 'react';
 
 type UserContextT = {
   favoritesIds: number[];
-  setFavoritesIds: (ids: number[]) => void;
+  setFavoritesIds: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
 export const UserContext = React.createContext<UserContextT>({
@@ -15,9 +15,9 @@ type Props = {
 };
 
 export const UserContextProvider: React.FC<Props> = ({children}) => {
-  const [favoritesIds, setFavoritesIds] = useState([]);
+  const [favoritesIds, setFavoritesIds] = useState<number[]>([]);
 
-  const contextValues = {
+  const contextValues: UserContextT = {
     favoritesIds,
     setFavoritesIds,
   };

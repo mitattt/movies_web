@@ -53,11 +53,10 @@ type Filter = {
 
 export const Filters = () => {
   const router = useRouter();
-  const [selectedGenre, setSelectedGenre] = useState(null);
-  const [sortBy, setSortBy] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(null);
-  const [voteAverage, setVoteAverage] = useState<Filter>(null);
-  const [selectedLanguage, setSelectedLanguage] = useState<Filter>(null);
+  const [selectedGenre, setSelectedGenre] = useState<(Filter | null)[]>([]);
+  const [sortBy, setSortBy] = useState<Filter | null>(null);
+  const [selectedYear, setSelectedYear] = useState<Filter | null>(null);
+  const [voteAverage, setVoteAverage] = useState<Filter | null>(null);
   const [allGenres, setAllGenres] = useState<FormattedGenre[]>([]);
 
   const sortByOptions = [
@@ -89,11 +88,6 @@ export const Filters = () => {
     })),
   ];
 
-  const languageOptions = [
-    {value: 'en-US', label: 'English'},
-    {value: 'fr-FR', label: 'French'},
-  ];
-
   useEffect(() => {
     const fetchGenres = async () => {
       try {
@@ -119,7 +113,9 @@ export const Filters = () => {
             .map(val => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
             .join('&');
         } else {
-          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+          return `${encodeURIComponent(key)}=${encodeURIComponent(
+            value || '',
+          )}`;
         }
       })
       .join('&');
@@ -141,34 +137,26 @@ export const Filters = () => {
 
     const sortByFromUrl = params.get('sort_by');
     if (sortByFromUrl) {
-      const selectedSortBy = sortByOptions.find(
-        option => option.value === sortByFromUrl,
-      );
+      const selectedSortBy =
+        sortByOptions.find(option => option.value === sortByFromUrl) || null;
       setSortBy(selectedSortBy);
     }
 
     const selectedYearFromUrl = params.get('year');
     if (selectedYearFromUrl) {
-      const selectedYear = yearOptions.find(
-        option => option.value === selectedYearFromUrl,
-      );
+      const selectedYear =
+        yearOptions.find(option => option.value === selectedYearFromUrl) ||
+        null;
       setSelectedYear(selectedYear);
     }
 
     const voteAverageFromUrl = params.get('vote_average.lte');
     if (voteAverageFromUrl) {
-      const selectedVoteAverage = voteOptions.find(
-        option => option.value === parseInt(voteAverageFromUrl),
-      );
+      const selectedVoteAverage =
+        voteOptions.find(
+          option => option.value === parseInt(voteAverageFromUrl),
+        ) || null;
       setVoteAverage(selectedVoteAverage);
-    }
-
-    const selectedLanguageFromUrl = params.get('language');
-    if (selectedLanguageFromUrl) {
-      const selectedLanguage = languageOptions.find(
-        option => option.value === selectedLanguageFromUrl,
-      );
-      setSelectedLanguage(selectedLanguage);
     }
   }, [allGenres, router.query]);
 
@@ -180,7 +168,9 @@ export const Filters = () => {
             .map(val => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
             .join('&');
         } else {
-          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+          return `${encodeURIComponent(key)}=${encodeURIComponent(
+            value || '',
+          )}`;
         }
       })
       .join('&');
@@ -205,9 +195,6 @@ export const Filters = () => {
       params.set('vote_average.lte', String(voteAverage.value));
     }
 
-    if (selectedLanguage && selectedLanguage.value)
-      params.set('language', selectedLanguage.value);
-
     router.push(`?${params.toString()}`, undefined);
   };
 
@@ -216,11 +203,10 @@ export const Filters = () => {
   };
 
   const handleResetFilters = () => {
-    setSelectedGenre(null);
+    setSelectedGenre([]);
     setSortBy(null);
     setSelectedYear(null);
     setVoteAverage(null);
-    setSelectedLanguage(null);
 
     router.push('/advancedSearch');
   };
@@ -237,7 +223,9 @@ export const Filters = () => {
             .map(val => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
             .join('&');
         } else {
-          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+          return `${encodeURIComponent(key)}=${encodeURIComponent(
+            value || '',
+          )}`;
         }
       })
       .join('&');
@@ -286,14 +274,6 @@ export const Filters = () => {
         onChange={setVoteAverage}
         options={voteOptions}
         placeholder="Vote Average"
-        styles={customStyles}
-      />
-
-      <Select
-        value={selectedLanguage}
-        onChange={setSelectedLanguage}
-        options={languageOptions}
-        placeholder="Select Language"
         styles={customStyles}
       />
       <Magnetic>
