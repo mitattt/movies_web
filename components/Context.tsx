@@ -1,5 +1,4 @@
-import React, {ReactNode} from 'react';
-import {useStorage} from '../hooks/useStorage';
+import React, {ReactNode, useState} from 'react';
 
 type UserContextT = {
   favoritesIds: number[];
@@ -16,7 +15,7 @@ type Props = {
 };
 
 export const UserContextProvider: React.FC<Props> = ({children}) => {
-  const [favoritesIds, setFavoritesIds] = useStorage([], 'Favorite');
+  const [favoritesIds, setFavoritesIds] = useState([]);
 
   const contextValues = {
     favoritesIds,

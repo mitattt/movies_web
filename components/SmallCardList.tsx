@@ -14,37 +14,37 @@ export const SmallCardList: React.FC<Props> = ({list}) => {
     XLLargeDesktop: {
       breakpoint: {max: 3000, min: 1921},
       items: 10,
-      slidesToSlide: 5,
+      slidesToSlide: 10,
       partialVisibilityGutter: 30,
     },
     extraLargeDesktop: {
       breakpoint: {max: 1920, min: 1600},
       items: 7,
-      slidesToSlide: 5,
+      slidesToSlide: 7,
       partialVisibilityGutter: 30,
     },
     superLargeDesktop: {
       breakpoint: {max: 1600, min: 1300},
       items: 6,
-      slidesToSlide: 4,
+      slidesToSlide: 6,
       partialVisibilityGutter: 30,
     },
     desktop: {
       breakpoint: {max: 1300, min: 1024},
       items: 5,
-      slidesToSlide: 2,
+      slidesToSlide: 5,
       partialVisibilityGutter: 30,
     },
     tablet: {
       breakpoint: {max: 1024, min: 600},
       items: 4,
-      slidesToSlide: 1,
+      slidesToSlide: 4,
       partialVisibilityGutter: 30,
     },
     mobile: {
       breakpoint: {max: 600, min: 0},
       items: 2,
-      slidesToSlide: 1,
+      slidesToSlide: 2,
       partialVisibilityGutter: 30,
     },
   };

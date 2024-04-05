@@ -22,8 +22,8 @@
     "eslint-config-next": "13.0.5",
     "framer-motion": "^11.0.24",
     "gsap": "^3.12.5",
-    "js-cookie": "^3.0.1",
     "next": "^13.2.4",
+    "nookies": "^2.5.2",
     "react": "^18.2.0",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.2.0",
@@ -32,7 +32,6 @@
     "react-select": "^5.8.0",
     "typescript": "4.9.5"
   },
-
   "devDependencies": {
     "autoprefixer": "^10.4.17",
     "eslint-config-prettier": "^8.10.0",

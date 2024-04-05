@@ -27,7 +27,7 @@ export const SmallCard: React.FC<Props> = ({imgUrl, title, movieId, vote}) => {
   const color = getColorForRating(vote);
 
   return (
-    <div className="bg-gray-800 shadow-md flex flex-col w-[150px] h-full rounded overflow-hidden cursor-pointer relative">
+    <div className="shadow-md flex flex-col w-[150px] h-full rounded overflow-hidden cursor-pointer relative">
       <Link href={`/movies/${movieId}`} passHref>
         <div>
           <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-black to-transparent"></div>

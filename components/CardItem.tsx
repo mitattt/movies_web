@@ -6,6 +6,7 @@ import {
   buildStyles,
   CircularProgressbarWithChildren,
 } from 'react-circular-progressbar';
+import {parseCookies, setCookie} from 'nookies';
 
 interface Props {
   imgUrl: string;
@@ -15,28 +16,32 @@ interface Props {
 
 export const CardItem: React.FC<Props> = ({imgUrl, movieId, vote}) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [select, setSelect] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const {favoritesIds, setFavoritesIds} = useContext(UserContext);
-  const isFavorite = favoritesIds.find(id => id === movieId);
-
-  const handleFavorite = (event: React.MouseEvent) => {
-    event.preventDefault();
-
-    if (isFavorite) {
-      const filteredFavorites = favoritesIds.filter(id => id !== movieId);
-      setFavoritesIds(filteredFavorites);
-    } else {
-      setFavoritesIds([...favoritesIds, movieId]);
-    }
-
-    setSelect(selected => !selected);
-  };
+  const cookies = parseCookies();
 
   useEffect(() => {
-    if (isFavorite) {
-      setSelect(true);
+    const favoritesFromStorage = cookies.favoriteIds;
+    if (favoritesFromStorage) {
+      const parsedFavorites = JSON.parse(favoritesFromStorage);
+      setFavoritesIds(parsedFavorites);
+      setIsFavorite(parsedFavorites.includes(movieId));
     }
-  }, [isFavorite]);
+    setIsLoading(false);
+  }, []);
+
+  const handleFavorite = () => {
+    const updatedFavoritesIds = isFavorite
+      ? favoritesIds.filter(id => id !== movieId)
+      : Array.from(new Set([...favoritesIds, movieId]));
+
+    setCookie(null, 'favoriteIds', JSON.stringify(updatedFavoritesIds), {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+    setFavoritesIds(updatedFavoritesIds);
+    setIsFavorite(!isFavorite);
+  };
 
   const getColorForRating = (rating: number) => {
     if (rating < 5) {
@@ -69,7 +74,7 @@ export const CardItem: React.FC<Props> = ({imgUrl, movieId, vote}) => {
           />
         </div>
 
-        <div className="absolute -top-3 -right-4 w-[50px] z-10 bg-black rounded-3xl">
+        <div className="absolute -top-3 -right-4 w-[50px] z-10 bg-black rounded-full">
           <CircularProgressbarWithChildren
             value={vote}
             maxValue={10}
@@ -89,7 +94,7 @@ export const CardItem: React.FC<Props> = ({imgUrl, movieId, vote}) => {
       <div
         onClick={handleFavorite}
         className="absolute -top-[2px] left-0 opacity-50 transition-opacity duration-100 hover:opacity-100">
-        {select ? (
+        {isFavorite ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 50 50"

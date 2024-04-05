@@ -36,7 +36,7 @@ export const Header = () => {
         <Magnetic>
           <Link href="/" passHref>
             <span
-              className={`text-gray-300 hover:text-yellow-600 text-xl font-bold transition duration-100 ${
+              className={`text-gray-300 hover:text-yellow-600 text-xl lg:text-[24px] font-bold transition duration-100 ${
                 isActive('/') ? 'text-yellow-600' : ''
               }`}>
               MOH

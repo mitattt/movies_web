@@ -11,6 +11,7 @@ import {CarouselRow} from '../components/CarouselRow';
 import {InfoSection} from '../components/InfoSection';
 import {FullsizedMovieSection} from '../components/FullsizedMovieSection';
 import {CustomHead} from '../components/CustomHead';
+import {Footer} from '../components/Footer';
 
 interface Props {
   nowPlayingMovies: FreshMoviesResponse;
@@ -54,6 +55,7 @@ export default function Index({
           link="/nowPlaying"
         />
       </section>
+      <Footer />
     </main>
   );
 }
