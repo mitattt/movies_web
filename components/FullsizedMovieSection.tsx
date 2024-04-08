@@ -55,6 +55,7 @@ export const FullsizedMovieSection = ({
                   objectFit="contain"
                   objectPosition="center"
                   className="rounded-sm"
+                  unoptimized
                 />
               </div>
             </motion.div>

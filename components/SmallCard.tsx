@@ -37,6 +37,7 @@ export const SmallCard: React.FC<Props> = ({imgUrl, title, movieId, vote}) => {
             width={100}
             height={100}
             className="object-cover w-full h-full"
+            unoptimized
           />
           <div className="absolute top-1 right-1 w-[35px]">
             <CircularProgressbarWithChildren

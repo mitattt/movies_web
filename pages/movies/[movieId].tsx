@@ -70,6 +70,7 @@ const Movie = ({
                 objectFit="cover"
                 objectPosition="center"
                 loading="lazy"
+                unoptimized
               />
             </div>
             <div className="flex items-center justify-center w-full">
@@ -138,6 +139,7 @@ const Movie = ({
                             fill={true}
                             objectFit="contain"
                             objectPosition="center"
+                            unoptimized
                           />
                         </div>
                       )}
@@ -172,6 +174,7 @@ const Movie = ({
                             objectFit="contain"
                             objectPosition="center"
                             className="rounded-full"
+                            unoptimized
                           />
                         </div>
                       )}
@@ -261,6 +264,7 @@ const Movie = ({
                                     objectPosition="center"
                                     className="rounded-lg"
                                     alt="Logo"
+                                    unoptimized
                                   />
                                 </div>
                                 <p className="text-sm whitespace-nowrap text-gray-300 ml-2">

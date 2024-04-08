@@ -71,6 +71,7 @@ export const CardItem: React.FC<Props> = ({imgUrl, movieId, vote}) => {
                 : 'scale-100 blur-0 grayscale-0'
             }`}
             onLoadingComplete={() => setIsLoading(false)}
+            unoptimized
           />
         </div>
 
